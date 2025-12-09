@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container" id="login-div">
+    <center>
+    <form method="post">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username"><br>
+        <label for="code">Server code</label>
+        <input type="number" name="code" id="code"><br>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+    </center>
+</div>
+{% endblock %}

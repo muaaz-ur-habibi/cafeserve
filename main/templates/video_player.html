@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h2>Video player</h2>
+    <hr>
+    <p>{{path}}</p>
+    <video controls autoplay id="player">
+        <source src="{{ url_for('routes.get_file', name=name, path=dm.urlify(path, True)) }}" type="video/mp4">
+    </video>
+</div>
+{% endblock %}

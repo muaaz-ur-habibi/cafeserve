@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h2>File preview</h2>
+    <h3>{{fname}}</h3>
+    <hr>
+    <a href="{{url_for('routes.add_script', name=name, path=fpath)}}"><button>Add script</button></a>
+    <hr>
+    <pre id="file-contents-preview">{{contents}}</pre>
+</div>
+{% endblock %}

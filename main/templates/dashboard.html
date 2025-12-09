@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h2>Dashboard</h2>
+    <hr>
+    <a href="{{url_for('routes.files', name=name, direc=dm.urlify(dm.BASE_DIR, True))}}">
+        <button class="dash-button">Files</button>
+    </a>
+    <br>
+    <a href="{{url_for('routes.scripts', name=name)}}">
+        <button class="dash-button">Scripts</button>
+    </a>
+</div>
+{% endblock %}

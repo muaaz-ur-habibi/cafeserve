@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h2>Scripts</h2>
+    <hr>
+    <ul>
+        {% for s in scripts %}
+            <li class="script-list-item">
+                <a href="{{url_for('routes.run_script', name=name, script_id=s.ID)}}"><button class="script-run-button">RUN</button></a>
+                {{s.fpath}}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

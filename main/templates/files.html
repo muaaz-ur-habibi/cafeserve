@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h2>Files</h2>
+    <hr>
+    <h3>Current path: {{ cur_path }}</h3>
+    {% if preview == False %}
+        <form method="post" enctype="multipart/form-data">
+            <label for="file-upload">Upload file</label>
+            <input type="file" name="file-upload" id="file-upload"> <br>
+            
+            <label for="folder-upload">Upload folder</label>
+            <input type="file" name="folder-upload" id="folder-upload" webkitdirectory> <br> <br>
+
+            <button type="submit" id="file-upload-button">Upload</button>
+        </form>
+        <hr>
+        <table>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+            </tr>
+            
+            {% for n, children in li.items() %}
+                {% if children is mapping %}
+                    {% if children['type'] != 'file' %}
+                        {% for n_child, c_child in children.items() %}
+                            <tr>
+                                <td>{{c_child['type']}}</td>
+                                {% if c_child['type'] == 'folder' %}
+                                    <td class="files-list-item">
+                                        <a href="{{url_for('routes.files', name=name, direc=dm.urlify(dm.urlify(direc, False)+'/'+n_child, True), preview=False)}}" class="table-row-item">{{n_child}}</a>
+                                    </td>
+                                {% else %}
+                                    <td class="files-list-item">
+                                        <a href="{{url_for('routes.preview_file', name=name, path=dm.urlify(dm.urlify(direc, False)+'/'+n_child, True))}}" class="table-row-item">{{n_child}}</a>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </table>
+    {% else %}
+        <code>
+            {{ dm.get_file_contents(dm.urlify(direc, False)) }}
+        </code>
+    {% endif %}
+</div>
+{% endblock %}

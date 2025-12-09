@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <title>Cafe {% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <div id="error-container">
+            <center><h3>{{ ERROR }}</h3></center>
+            {% if request.args.get("ERROR") != None %}
+                <center><h3>{{ ERROR }}</h3></center>
+            {% endif %}
+        </div>
+        <div>
+            <center>
+                <h1 class="heading">CafeServer</h1>
+                <h3 class="heading">A very simple LAN server</h3>
+            </center>
+        </div>
+
+        {% block body %}
+        {% endblock %}
+
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+    </body>
+</html>
