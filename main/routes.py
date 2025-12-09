@@ -4,16 +4,22 @@ from random import randint
 from .usermanager import UsersManager
 from .database import DatabaseManager, ScriptsManager
 
-from pprint import pp
+from sys import argv
+
+if len(argv) < 2:
+    print('USAGE:\n' \
+          '     python cafeserve.py [database location]')
+    
+    exit(0)
 
 routes = Blueprint("routes", "routes")
 
 CODE:int = randint(100, 999)
 
-print("The server code is ", CODE)
+print("The server code is", CODE)
 
 um = UsersManager()
-dm_base_dir = "D:/CafeServeDatabase"
+dm_base_dir = argv[1]
 dm = DatabaseManager(dm_base_dir)
 sm = ScriptsManager()
 
