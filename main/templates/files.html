@@ -3,7 +3,7 @@
 <div class="container">
     <h2>Files</h2>
     <hr>
-    <h3>Current path: {{ cur_path }}</h3>
+    <h3>Current path: {{ dm.urlify(direc, False) }}</h3>
     {% if preview == False %}
         <form method="post" enctype="multipart/form-data">
             <label for="file-upload">Upload file</label>

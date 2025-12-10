@@ -21,6 +21,8 @@ class FileNode:
 
 class DatabaseManager:
     def __init__(self, base_dir:str):
+        if not isdir(base_dir):
+            makedirs(base_dir, exist_ok=True)
         self.BASE_DIR = base_dir
         self.CUR_DIR = self.BASE_DIR
         self.ROOT_NODE = FileNode(None, self.BASE_DIR, [])
