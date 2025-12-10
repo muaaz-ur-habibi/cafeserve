@@ -12,12 +12,18 @@ body {
     margin: 0px auto;
     padding: 10px 10px;
     width: 90%;
+    height: 70vh;
     border: 2px solid black;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 #login-div {
     width: 90%;
+}
+
+#login-submit {
+    width: 100%;
+    height: 40px;
 }
 
 .dash-button {
