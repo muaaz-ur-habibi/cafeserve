@@ -3,9 +3,11 @@ from os.path import dirname, isdir
 from os import makedirs, listdir, system
 from subprocess import run
 from base64 import urlsafe_b64decode, urlsafe_b64encode
-from mimetypes import guess_type
+import mimetypes
 
 from pprint import pp
+
+mimetypes.add_type("video/mp2t", ".ts")
 
 class FileNode:
     def __init__(self, parent:FileNode, name:str, child:list[FileNode], is_file:bool=False):
@@ -121,7 +123,8 @@ class DatabaseManager:
                 c = f.read().decode()
             
             except UnicodeDecodeError:
-                c = f"UG_{guess_type(path)[0]}"
+                c = f"UG_{mimetypes.guess_type(path)[0]}"
+                print("Guessed", c)
             
         return c
 

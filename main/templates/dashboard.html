@@ -2,13 +2,37 @@
 {% block body %}
 <div class="container">
     <h2>Dashboard</h2>
+    <div id="name">Logged in as: {{name}}</div>
     <hr>
-    <a href="{{url_for('routes.files', name=name, direc=dm.urlify(dm.BASE_DIR, True))}}">
-        <button class="dash-button">Files</button>
-    </a>
-    <br>
-    <a href="{{url_for('routes.scripts', name=name)}}">
-        <button class="dash-button">Scripts</button>
-    </a>
+    <div class="non-container">
+        <div class="sub-container">
+            <a href="{{url_for('routes.files', name=name, direc=dm.urlify(dm.BASE_DIR, True))}}">
+                <button class="dash-button">Files</button>
+            </a>
+            <br>
+            <a href="{{url_for('routes.scripts', name=name)}}">
+                <button class="dash-button">Scripts</button>
+            </a>
+        </div>
+        <hr>
+        <div class="sub-container">
+            <h3>Server stats</h3>
+            <p id="server-stats-memory"></p>
+            <p id="server-stats-netio"></p>
+            <p id="server-stats-battery"></p>
+            <p id="server-stats-database_size"></p>
+        </div>
+    </div>
+    <hr>
+    <div class="non-container">
+        <h3>Announcements</h3>
+        <ul id="announcements-list">
+            {% for a in announcements %}
+                <li class="announcements-list-item">{{a}}</li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
+
+<script src="{{ url_for('static', filename='dash_update.js') }}"></script>
 {% endblock %}

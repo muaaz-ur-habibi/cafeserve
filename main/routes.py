@@ -3,6 +3,7 @@ from random import randint
 
 from .usermanager import UsersManager
 from .database import DatabaseManager, ScriptsManager
+from .server import get_server_stats
 
 from sys import argv
 
@@ -23,10 +24,19 @@ dm_base_dir = argv[1]
 dm = DatabaseManager(dm_base_dir)
 sm = ScriptsManager()
 
+
+ANNOUNCEMENTS_LIST:list[str] = []
+
+# ------------------------------------- API ROUTES --------------------------------
+@routes.route("/api/get_server_stats")
+def api_get_server_stats():
+    return get_server_stats(dm.BASE_DIR)
+
+# ------------------------------------ DASHBOARD AND LOGIN ROUTES ---------------------------------
 @routes.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "GET":
-        return render_template("home.html")
+        return render_template("home.html", name="")
     
     elif request.method == "POST":
         name = request.form.get("username")
@@ -43,12 +53,12 @@ def home():
 def dashboard(name):
     if um.is_logged_in(name):
         if request.method == "GET":
-            return render_template("dashboard.html", name=name)
+            return render_template("dashboard.html", name=name, announcements=ANNOUNCEMENTS_LIST)
         
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
 
-
+# ------------------------------ FILES ROUTES ------------------------------------------------
 @routes.route("/<name>/files/<direc>", methods=["GET", "POST"])
 def files(name, direc):
     dm.rebuild_nodes(dm.ROOT_NODE)
@@ -114,7 +124,7 @@ def get_file(name, path):
     if um.is_logged_in(name):
         return send_file(dm.urlify(path, False))
     
-
+# ---------------------------- SCRIPTS ROUTES ----------------------------------------
 @routes.route("/<name>/scripts", methods=["GET", "POST"])
 def scripts(name):
     if um.is_logged_in(name):
@@ -149,3 +159,10 @@ def run_script(name, script_id):
         
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
+    
+# ------------------------- ADMIN ROUTES -------------------------------------------
+ADMIN_ROUTE_NAME = "admin"
+@routes.route(f"/{ADMIN_ROUTE_NAME}/panel")
+def admin_panel():
+    if request.method == "GET":
+        return render_template("admin_panel.html")

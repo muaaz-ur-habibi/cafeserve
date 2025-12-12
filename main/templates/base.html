@@ -7,9 +7,15 @@
         <title>Cafe {% block title %}{% endblock %}</title>
     </head>
     <body>
+        {% if name.strip() != "" %}
+            <ul id="navbar">
+                <li><a class="navbar-item" href="/{{name}}/dashboard">Dashboard</a></li>
+            </ul>
+        {% endif %}
         <div id="error-container">
-            <center><h3>{{ ERROR }}</h3></center>
             {% if request.args.get("ERROR") != None %}
+                <center><h3>{{ request.args.get("ERROR") }}</h3></center>
+            {% else %}
                 <center><h3>{{ ERROR }}</h3></center>
             {% endif %}
         </div>
