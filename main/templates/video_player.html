@@ -1,13 +1,31 @@
 {% extends 'base.html' %}
+
+{% block head %}
+<style>
+    .video-container {
+        max-width: 960px;
+        margin: 0 auto;
+    }
+
+    video {
+        width: 100%;
+        height: auto;
+        background: #000;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
 <div class="container">
-    <h2>Video player</h2>
+    <h2>Video Player</h2>
     <hr>
-    <p>{{path}}</p>
-    <center>
-        <video controls autoplay id="player">
+    <p>{{ path }}</p>
+
+    <div class="video-container">
+        <video controls autoplay>
             <source src="{{ url_for('routes.get_file', name=name, path=dm.urlify(path, True)) }}" type="video/mp4">
+            Your browser is stupid
         </video>
-    </center>
+    </div>
 </div>
 {% endblock %}

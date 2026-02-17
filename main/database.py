@@ -1,6 +1,7 @@
 from __future__ import annotations
 from os.path import dirname, isdir
-from os import makedirs, listdir, system
+from os import makedirs, listdir, remove
+from shutil import rmtree
 from subprocess import run
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 import mimetypes
@@ -155,7 +156,13 @@ class DatabaseManager:
             return urlsafe_b64encode(path.encode()).decode()
         else:
             return urlsafe_b64decode(path.encode()).decode()
+        
+    def delete_path(self, path, p_type):
+        if p_type == 'file':
+            remove(path)
 
+        elif p_type == 'folder':
+            rmtree(path, ignore_errors=True)
 
 
 

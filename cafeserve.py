@@ -1,12 +1,13 @@
 from main import BUILD
-from main.routes import dm
+from main.routes import dm, um
 
 app=BUILD()
 
 @app.context_processor
 def inject_globals():
     return {
-        "dm": dm
+        "dm": dm,
+        "um": um
     }
 
 if __name__ == "__main__":

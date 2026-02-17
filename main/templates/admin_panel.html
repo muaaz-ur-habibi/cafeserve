@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h2>Admin panel</h2>
+    <hr>
+    {% if administer == 'base' %}
+        <div class="non-container">
+            <div class="sub-container">
+                <a href="{{url_for('routes.admin_announce')}}">
+                    <button class="dash-button">Announce</button>
+                </a>
+            </div>
+            <hr>
+            <div class="sub-container">
+                <p id="users-count"></p>
+            </div>
+        </div>
+    {% elif administer == 'announce' %}
+        <form method="post" class="admin-panel-form">
+            <label for="announcement">Announcement</label><br><br>
+            <textarea name="announcement" id="announcement"></textarea>
+            <label for="announcement-level">Announcement Level (1-3)</label>
+            <input type="number" name="announcement-level" id="announcement-level">
+            <br><br>
+            <button type="submit">Submit</button>
+        </form>
+    {% endif %}
+</div>
+
+<script src="{{ url_for('static', filename='admin_update.js') }}"></script>
+{% endblock %}

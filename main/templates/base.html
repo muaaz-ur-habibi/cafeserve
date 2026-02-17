@@ -3,30 +3,40 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block head %}
+        {% endblock %}
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <title>Cafe {% block title %}{% endblock %}</title>
     </head>
     <body>
-        {% if name.strip() != "" %}
-            <ul id="navbar">
-                <li><a class="navbar-item" href="/{{name}}/dashboard">Dashboard</a></li>
-            </ul>
-        {% endif %}
-        <div id="error-container">
-            {% if request.args.get("ERROR") != None %}
-                <center><h3>{{ request.args.get("ERROR") }}</h3></center>
-            {% else %}
-                <center><h3>{{ ERROR }}</h3></center>
-            {% endif %}
-        </div>
+        <center>
+            <div id="error-container">
+                {% if request.args.get("ERROR") != None %}
+                    <center><h3>{{ request.args.get("ERROR") }}</h3></center>
+                {% else %}
+                    <center><h3>{{ ERROR }}</h3></center>
+                {% endif %}
+            </div>
+        </center>
         <div>
             <center>
                 <h1 class="heading">CafeServe</h1>
                 <h3 class="heading">A very simple LAN server</h3>
             </center>
         </div>
+        
+        {% if um.is_logged_in(name) %}
+        <div class="container">
+            <a href="{{url_for('routes.dashboard', name=name)}}">
+                <button>Back to dashboard</button>
+            </a>
+        </div>
+        {% endif %}
 
         {% block body %}
+        {% endblock %}
+
+        {% block scripts %}
         {% endblock %}
 
         <script src="{{ url_for('static', filename='script.js') }}"></script>

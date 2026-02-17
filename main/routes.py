@@ -3,7 +3,9 @@ from random import randint
 
 from .usermanager import UsersManager
 from .database import DatabaseManager, ScriptsManager
-from .server import get_server_stats
+from .server import get_server_stats, get_camera_feed
+
+from datetime import datetime, timedelta
 
 from sys import argv
 
@@ -24,13 +26,30 @@ dm_base_dir = argv[1]
 dm = DatabaseManager(dm_base_dir)
 sm = ScriptsManager()
 
-
-ANNOUNCEMENTS_LIST:list[str] = []
+ANNOUNCEMENTS_LIST:list[(str, int, datetime)] = []
 
 # ------------------------------------- API ROUTES --------------------------------
 @routes.route("/api/get_server_stats")
 def api_get_server_stats():
     return get_server_stats(dm.BASE_DIR)
+
+@routes.route("/api/get_users_count")
+def api_get_users_count():
+    return {'users_count': um.users_count}
+
+@routes.route("/api/update_server")
+def api_update_server():
+    cur_time = datetime.now()
+
+    for a in ANNOUNCEMENTS_LIST:
+        if cur_time - a[3] > timedelta(7):
+            ANNOUNCEMENTS_LIST.remove(a)
+    
+    return {"update_success": True}
+
+@routes.route("/api/get_camera_feed")
+def api_get_camera_feed():
+    return get_camera_feed()
 
 # ------------------------------------ DASHBOARD AND LOGIN ROUTES ---------------------------------
 @routes.route("/", methods=["GET", "POST"])
@@ -124,6 +143,30 @@ def get_file(name, path):
     if um.is_logged_in(name):
         return send_file(dm.urlify(path, False))
     
+    else:
+        return redirect(url_for('routes.home', ERROR="Please log in"))
+    
+@routes.route("/<name>/delete/<path>/<p_type>", methods=['GET'])
+def delete_file(name, path, p_type):
+    if um.is_logged_in(name):
+        if request.method == 'GET':
+            path = dm.urlify(path, False)
+            dm.delete_path(path, p_type)
+
+            return redirect(url_for('routes.files', name=name, direc=dm.urlify(path.rsplit("/", 1)[0], True)))
+
+    else:
+        return redirect(url_for('routes.home', ERROR="Please log in"))
+    
+# ------------------------------ CAMERAS ROUTES -------------------------------------
+@routes.route("/<name>/cams")
+def cams(name):
+    if um.is_logged_in(name):
+        return render_template("cams.html")
+    
+    else:
+        return redirect(url_for('routes.home', ERROR="Please log in"))
+    
 # ---------------------------- SCRIPTS ROUTES ----------------------------------------
 @routes.route("/<name>/scripts", methods=["GET", "POST"])
 def scripts(name):
@@ -165,4 +208,15 @@ ADMIN_ROUTE_NAME = "admin"
 @routes.route(f"/{ADMIN_ROUTE_NAME}/panel")
 def admin_panel():
     if request.method == "GET":
-        return render_template("admin_panel.html")
+        return render_template("admin_panel.html", administer='base')
+    
+@routes.route(f"/{ADMIN_ROUTE_NAME}/announce", methods=["GET", "POST"])
+def admin_announce():
+    if request.method == "GET":
+        return render_template("admin_panel.html", administer='announce')
+    
+    else:
+        announcement = request.form.get("announcement")
+        level = int(request.form.get("announcement-level"))
+        ANNOUNCEMENTS_LIST.append((announcement, level))
+        return render_template("admin_panel.html", administer='base')

@@ -19,6 +19,7 @@
             <tr>
                 <th>Type</th>
                 <th>Name</th>
+                <th></th>
             </tr>
             
             {% for n, children in li.items() %}
@@ -36,6 +37,13 @@
                                         <a href="{{url_for('routes.preview_file', name=name, path=dm.urlify(dm.urlify(direc, False)+'/'+n_child, True))}}" class="table-row-item">{{n_child}}</a>
                                     </td>
                                 {% endif %}
+                                <td class="delete-files-head">
+                                    <center>
+                                        <a href="{{url_for('routes.delete_file', name=name, path=dm.urlify(dm.urlify(direc, False)+'/'+n_child, True), p_type=c_child['type'])}}" class="files-delete-button">
+                                            <button>♻</button>
+                                        </a>
+                                    </center>
+                                </td>
                             </tr>
                         {% endfor %}
                     {% endif %}

@@ -1,6 +1,11 @@
 from psutil import virtual_memory, net_io_counters, sensors_battery
 import os
+from requests import get
+from requests.exceptions import ConnectionError
+import cv2
+from base64 import b64encode
 
+camera = cv2.VideoCapture(0)
 
 def get_size(start_path:str):
     total_size = 0
@@ -23,6 +28,13 @@ def bytes_to_iec(num_bytes):
 
     return f"{size:.2f} {units[-1]}"
 
+def test_connection():
+    try:
+        get("https://google.com")
+        return True
+    except ConnectionError:
+        return False
+
 def get_server_stats(database_location:str):
     memory = virtual_memory()
     memory_info = f"{round(memory.used / (1024 ** 3), 2)} / {round(memory.total / (1024 ** 3))}"
@@ -39,8 +51,28 @@ def get_server_stats(database_location:str):
     database_size = f"Database size: {bytes_to_iec(get_size(database_location))}"
 
     return {
+        "connected": test_connection(),
         "memory_info": memory_info,
         "network_info": network_info,
         "battery_info": battery_info,
         "database_size": database_size
     }
+
+def get_camera_feed():
+    if camera.isOpened():
+        ret, frame = camera.read()
+        _, image_data = cv2.imencode('.JPG', frame)
+        #image_data = b64encode(image_data.tobytes()).decode()
+        image_data = image_data.tobytes()
+
+        '''
+        return {
+            'stream': image_data
+        }
+        '''
+        return image_data
+    
+    else:
+        return {
+            'success': False
+        }

@@ -7,9 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('/api/get_server_stats')
         .then(response => response.json())
         .then(data =>{
+            document.getElementById("server-stats-connection").textContent = `Connection status: ${data.connected}`;
             document.getElementById("server-stats-memory").textContent = `Memory: ${data.memory_info} GB`;
             document.getElementById("server-stats-netio").textContent = `Net IO: ${data.network_info}`;
-            document.getElementById("server-stats-battery").textContent = data.battery;
+            document.getElementById("server-stats-battery").textContent = `Battery: ${data.battery_info}`;
             document.getElementById("server-stats-database_size").textContent = data.database_size;
         })
         .catch(error => {

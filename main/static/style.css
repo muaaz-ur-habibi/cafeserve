@@ -1,32 +1,17 @@
 body {
     background-color: gray;
     color: antiquewhite;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: white;
 }
 
 .heading {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: 700;
-}
-
-#navbar {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    display: flex;
-    margin: 0px auto;
-}
-
-.navbar-item {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 14px 16px;
-    border: 1px solid black;
-}
-
-.navbar-item:hover {
-    background-color: black;
 }
 
 .container {
@@ -83,6 +68,10 @@ td {
     width: 100%;
 }
 
+.files-delete-button button {
+    width: 80%;
+}
+
 pre {
     width: 100%;
     text-wrap-mode: wrap;
@@ -90,6 +79,39 @@ pre {
 
 #player {
     width: 90%;
+}
+
+.stream-select {
+    border: 1px solid white;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+.stream-search-results a {
+    text-align: center;
+    border: 2px solid black;
+    margin: 20px 10px;
+}
+
+.stream-search-results-img {
+    width: 100%;
+    height: auto;
+}
+
+.delete-files-head {
+    min-width: 10%;
+}
+
+#announcements-list {
+    list-style-type:none;
+}
+
+.announcements-list-item {
+    margin-top: 4px;
+}
+
+#camera-feed {
+    width: 100%;
 }
 
 @media (min-width:720px) {
@@ -102,10 +124,6 @@ pre {
         padding: 10px 30px;
     }
 
-    #navbar {
-        width: 50%;
-    }
-
     .sub-container {
         padding: 0px 20px;
     }
@@ -113,4 +131,22 @@ pre {
     .non-container {
         display: flex;
     }
+
+    .stream-search-results a {
+        display: flex;
+        width: 100%;
+        padding: 10px 10px;
+    }
+
+    .stream-search-results-img {
+        display: block;
+        margin-left: auto;
+        width: auto;
+        height: auto;
+    }
+}
+
+#announcement {
+    min-width: 90%;
+    min-height: 30vh;
 }
