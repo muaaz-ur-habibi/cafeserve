@@ -2,6 +2,7 @@
 class UsersManager:
     def __init__(self):
         self.users_list:list[str] = []
+        self.status_list:list[str]= []
         self.users_count:int = 0
 
     def add_user(self, name:str):

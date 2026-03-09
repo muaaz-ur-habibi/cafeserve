@@ -3,7 +3,6 @@ import os
 from requests import get
 from requests.exceptions import ConnectionError
 import cv2
-from base64 import b64encode
 
 camera = cv2.VideoCapture(0)
 

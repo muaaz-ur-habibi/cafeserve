@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, redirect, url_for, send_f
 from random import randint
 
 from .usermanager import UsersManager
-from .database import DatabaseManager, ScriptsManager
+from .database import DatabaseManager
 from .server import get_server_stats, get_camera_feed
 
 from datetime import datetime, timedelta
@@ -24,7 +24,6 @@ print("The server code is", CODE)
 um = UsersManager()
 dm_base_dir = argv[1]
 dm = DatabaseManager(dm_base_dir)
-sm = ScriptsManager()
 
 ANNOUNCEMENTS_LIST:list[(str, int, datetime)] = []
 
@@ -134,6 +133,12 @@ def preview_file(name, path):
                     return render_template(
                         "video_player.html", path=path, name=name
                     )
+
+                elif c == 'image':
+                    path = dm.urlify(path, False)
+                    return render_template(
+                        "image_viewer.html", path=path, name=name
+                    )
     
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
@@ -157,7 +162,7 @@ def delete_file(name, path, p_type):
 
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
-    
+
 # ------------------------------ CAMERAS ROUTES -------------------------------------
 @routes.route("/<name>/cams")
 def cams(name):
@@ -166,43 +171,7 @@ def cams(name):
     
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
-    
-# ---------------------------- SCRIPTS ROUTES ----------------------------------------
-@routes.route("/<name>/scripts", methods=["GET", "POST"])
-def scripts(name):
-    if um.is_logged_in(name):
-        if request.method == "GET":
-            return render_template("scripts.html", scripts=sm.scripts_list, name=name)
-    else:
-        return redirect(url_for('routes.home', ERROR="Please log in"))
-    
-@routes.route("/<name>/add_script/<path>")
-def add_script(name, path):
-    if um.is_logged_in(name):
-        if request.method == "GET":
-            sm.add_script(dm.urlify(path, False))
 
-            return redirect(url_for('routes.scripts', name=name))
-
-    else:
-        return redirect(url_for('routes.home', ERROR="Please log in"))
-    
-@routes.route("/<name>/run_script/<script_id>", methods=["GET", "POST"])
-def run_script(name, script_id):
-    if um.is_logged_in(name):
-        if request.method == 'GET':
-            return render_template("run_script.html", result=("", "", 0))
-        
-        else:
-            run_command = request.form.get("run-command")
-            s = sm.get_script_by_ID(int(script_id))
-            res = sm.run_script(s, run_command)
-
-            return render_template("run_script.html", result=res)
-        
-    else:
-        return redirect(url_for('routes.home', ERROR="Please log in"))
-    
 # ------------------------- ADMIN ROUTES -------------------------------------------
 ADMIN_ROUTE_NAME = "admin"
 @routes.route(f"/{ADMIN_ROUTE_NAME}/panel")

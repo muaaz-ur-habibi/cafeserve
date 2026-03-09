@@ -2,7 +2,7 @@ from __future__ import annotations
 from os.path import dirname, isdir
 from os import makedirs, listdir, remove
 from shutil import rmtree
-from subprocess import run
+from subprocess import Popen, PIPE
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 import mimetypes
 
@@ -26,10 +26,16 @@ class DatabaseManager:
     def __init__(self, base_dir:str):
         if not isdir(base_dir):
             makedirs(base_dir, exist_ok=True)
+            makedirs(f"{base_dir}/Media", exist_ok=True)
+            makedirs(f"{base_dir}/Scripts", exist_ok=True)
+            makedirs(f"{base_dir}/Documents", exist_ok=True)
+
         self.BASE_DIR = base_dir
         self.CUR_DIR = self.BASE_DIR
         self.ROOT_NODE = FileNode(None, self.BASE_DIR, [])
         self.CUR_NODE = self.ROOT_NODE
+
+        self.running_processes = {'job_id': 'Process'}
 
     # AI function
     def print_tree(self, node: FileNode = None, indent: str = "", is_last: bool = True):
@@ -121,7 +127,10 @@ class DatabaseManager:
         c = ""
         with open(path, "rb") as f:
             try:
-                c = f.read().decode()
+                c = f.read().decode().strip()
+
+                if c == '':
+                    c = f"UG_{mimetypes.guess_type(path)[0]}"
             
             except UnicodeDecodeError:
                 c = f"UG_{mimetypes.guess_type(path)[0]}"
@@ -163,38 +172,3 @@ class DatabaseManager:
 
         elif p_type == 'folder':
             rmtree(path, ignore_errors=True)
-
-
-
-class Script:
-    def __init__(self, fpath, ID):
-        self.fpath = fpath
-        self.ID = ID
-
-class ScriptsManager:
-    def __init__(self):
-        self.scripts_list:list[Script] = []
-        self.curr_script_id = 0
-
-    def add_script(self, path:str):
-        s = Script(path, self.curr_script_id)
-        self.curr_script_id+=1
-
-        self.scripts_list.append(s)
-
-    def get_script_by_ID(self, ID:int):
-        for s in self.scripts_list:
-            if s.ID == ID:
-                print("FOUND SCRIPT", s.fpath)
-                return s.fpath
-            
-        return ""
-    
-    def run_script(self, script_path:str, run_command:str):
-        print("script path", script_path)
-        run_command = run_command.replace("{SCRIPT}", script_path)
-        print("run command", run_command)
-        
-        d = run(run_command.split(" "), capture_output=True)
-        
-        return (d.stdout.decode(), d.stderr, d.returncode)

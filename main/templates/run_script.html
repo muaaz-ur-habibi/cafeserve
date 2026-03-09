@@ -1,21 +1,8 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class="container">
-    <h2>Run script</h2>
-    <hr>
-
-    <form method="post">
-        <label for="run-command">Run command</label>
-        <input type="text" name="run-command" id="run-command">
-
-        <button type="submit">Run</button>
-    </form>
-    <hr>
-    <h2>Status: {{status}}</h2>
-
-    <h3>Output</h3>
-    <pre>STDOUT<br>{{result[0]}}</pre>
-    <pre>STDERR<br>{{result[1]}}</pre>
-    <pre>RETURN CODE: {{result[2]}}</pre>
+    {% if result == (None, None, None) %}
+        <h3>Job ID for script is {{job}}</h3>
+    {% endif %}
 </div>
 {% endblock %}

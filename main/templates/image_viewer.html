@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    .image-container {
+        max-width: 960px;
+        margin: 0 auto;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2>Image Viewer</h2>
+    <hr>
+    <p>{{ path }}</p>
+
+    <div class="image-container">
+        <img src="{{ url_for('routes.get_file', name=name, path=dm.urlify(path, True)) }}" alt="" srcset="">
+    </div>
+</div>
+{% endblock %}
