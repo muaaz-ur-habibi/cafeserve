@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+    <h2>Addons</h2>
+    <hr>
+    <h3>Your addons</h3>
+    <ul id="addons-list">
+        {% for a in addons %}
+            <a href="{{url_for(a['name'].lower()+'.home')}}">
+                <li class="addon">
+                    <h2>{{a["name"]}}</h2>
+                    <h4>Located @ {{a["filename"]}}</h4>
+                </li>
+            </a>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

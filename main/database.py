@@ -71,7 +71,6 @@ class DatabaseManager:
             # recurse only if this is a directory
             if isdir(full_path):
                 # folder
-                print("FOLDER BRO")
                 child = FileNode(node, name, [], False)
                 child = self.rebuild_nodes(child, full_path)
                 node.child.append(child)
@@ -102,7 +101,6 @@ class DatabaseManager:
 
     def get_node_from_path(self, path:str):
         path = path.split(self.BASE_DIR)[-1].replace("\\", "/").split("/")
-        
 
         node = self.ROOT_NODE
         for p in path:

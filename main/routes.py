@@ -4,6 +4,7 @@ from random import randint
 from .usermanager import UsersManager
 from .database import DatabaseManager
 from .server import get_server_stats, get_camera_feed
+from .confighandler import Config
 
 from datetime import datetime, timedelta
 
@@ -11,7 +12,7 @@ from sys import argv
 
 if len(argv) < 2:
     print('USAGE:\n' \
-          '     python cafeserve.py [database location]')
+          '     python cafeserve.py [database location] [config location]')
     
     exit(0)
 
@@ -24,6 +25,7 @@ print("The server code is", CODE)
 um = UsersManager()
 dm_base_dir = argv[1]
 dm = DatabaseManager(dm_base_dir)
+cf = Config(argv[2]).get_config()
 
 ANNOUNCEMENTS_LIST:list[(str, int, datetime)] = []
 
@@ -169,6 +171,14 @@ def cams(name):
     if um.is_logged_in(name):
         return render_template("cams.html")
     
+    else:
+        return redirect(url_for('routes.home', ERROR="Please log in"))
+    
+# ------------------------------ ADDONS ROUTES --------------------------------------
+@routes.route("/<name>/addons")
+def addons(name):
+    if um.is_logged_in(name):
+        return render_template("addons.html", addons=cf["addons"])
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
 
