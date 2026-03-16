@@ -29,6 +29,7 @@ class DatabaseManager:
             makedirs(f"{base_dir}/Media", exist_ok=True)
             makedirs(f"{base_dir}/Scripts", exist_ok=True)
             makedirs(f"{base_dir}/Documents", exist_ok=True)
+            makedirs(f"{base_dir}/Addons", exist_ok=True)
 
         self.BASE_DIR = base_dir
         self.CUR_DIR = self.BASE_DIR

@@ -1,10 +1,11 @@
-from flask import Blueprint, request, render_template, redirect, url_for, send_file
+from flask import Blueprint, request, render_template, redirect, url_for, send_file, current_app
 from random import randint
 
 from .usermanager import UsersManager
 from .database import DatabaseManager
 from .server import get_server_stats, get_camera_feed
 from .confighandler import Config
+from .global_funcs import register_addons
 
 from datetime import datetime, timedelta
 
@@ -14,7 +15,8 @@ CODE:int = randint(100, 999)
 
 print("The server code is", CODE)
 
-cf = Config("config.json").get_config()
+conf = Config("config.json")
+cf = conf.get_config()
 
 um = UsersManager()
 dm_base_dir = cf['server']['database']
@@ -168,10 +170,41 @@ def cams(name):
         return redirect(url_for('routes.home', ERROR="Please log in"))
     
 # ------------------------------ ADDONS ROUTES --------------------------------------
-@routes.route("/<name>/addons")
+@routes.route("/<name>/addons", methods=["GET", "POST"])
 def addons(name):
     if um.is_logged_in(name):
-        return render_template("addons.html", name=name, addons=cf["addons"])
+        if request.method == "GET":
+            print(cf["addons"])
+            return render_template("addons.html", name=name, addons=cf["addons"])
+        
+        elif request.method == "POST":
+            addon = request.files.getlist('folder-upload')
+
+            addon_name = ""
+            addon_filename = ""
+
+            if addon:
+                for f in addon:
+                    if f.filename != '':
+                        addon_name = f.filename.split("/", maxsplit=1)[0]
+
+                        dm.add_path(f"{dm.BASE_DIR}/Addons/{f.filename}", True, f.stream.read())
+                        dm.add_node(f.filename, f"{dm.BASE_DIR}/Addons", f.stream.read())
+
+                        if len(f.filename.split("/")) < 3:
+                            addon_filename = f.filename
+                
+                print("Added", addon_name)
+                
+                cf['addons'].append({
+                    "name": addon_name,
+                    "filename": dm.BASE_DIR+"/Addons/"+addon_filename
+                })
+                conf.set_config(cf)
+
+                register_addons(cf, current_app)
+
+            return render_template("addons.html", name=name, addons=cf["addons"])
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
 
