@@ -1,5 +1,5 @@
 body {
-    background-color: gray;
+    background-color: rgb(29, 29, 29);
     color: antiquewhite;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -18,8 +18,17 @@ a {
     margin: 0px auto;
     padding: 10px 10px;
     width: 90%;
-    border: 2px solid black;
+    border: 2px solid rgb(6, 0, 92);
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+hr {
+    color: rgb(15, 0, 218);
+}
+
+button {
+    background-color: rgb(0, 110, 255);
+    color: white;
 }
 
 .sub-container {
@@ -36,14 +45,12 @@ a {
 }
 
 .dash-button {
-    text-decoration: none;
-    color: black;
     width: 100%;
     height: 50px;
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
-#file-upload-button {
+.file-upload-button {
     width: 100%;
 }
 
@@ -52,7 +59,7 @@ table {
 }
 
 td {
-    border: 1px solid black;
+    border: 1px solid rgb(255, 255, 255);
 }
 
 .table-row-item {
@@ -61,6 +68,10 @@ td {
     width: 100%;
     padding: 10px 0px;
     padding-left: 10px;
+}
+
+.files-table-type {
+    max-width: 10px;
 }
 
 .files-list-item .table-row-item {

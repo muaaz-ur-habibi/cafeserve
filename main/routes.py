@@ -208,6 +208,25 @@ def addons(name):
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
 
+
+@routes.route("/<name>/delete_addon/<addon_name>")
+def delete_addon(name, addon_name):
+    if um.is_logged_in(name):
+        if request.method == "GET":
+            for a in cf['addons']:
+                if a["name"] == addon_name:
+                    cf['addons'].remove(a)
+                    break
+            
+            conf.set_config(cf)
+
+            register_addons(cf, current_app)
+
+            return redirect(url_for('routes.addons', name=name))
+
+    else:
+        return redirect(url_for('routes.home', ERROR="Please log in"))
+
 # ------------------------- ADMIN ROUTES -------------------------------------------
 ADMIN_ROUTE_NAME = cf['server']['admin route']
 @routes.route(f"/{ADMIN_ROUTE_NAME}/panel")

@@ -12,9 +12,10 @@
             <label for="folder-upload">Upload folder</label>
             <input type="file" name="folder-upload" id="folder-upload" webkitdirectory> <br> <br>
 
-            <button type="submit" id="file-upload-button">Upload</button>
+            <button type="submit" class="file-upload-button">Upload</button>
         </form>
         <hr>
+        <button type="button" onclick="getLastDirectory('{{dm.urlify(direc, False)}}', '{{dm.BASE_DIR}}')" style="padding: 0px 10px;">↩</button>
         <table>
             <tr>
                 <th>Type</th>
@@ -27,7 +28,7 @@
                     {% if children['type'] != 'file' %}
                         {% for n_child, c_child in children.items() %}
                             <tr>
-                                <td>{{c_child['type']}}</td>
+                                <td class="files-table-type">{{c_child['type']}}</td>
                                 {% if c_child['type'] == 'folder' %}
                                     <td class="files-list-item">
                                         <a href="{{url_for('routes.files', name=name, direc=dm.urlify(dm.urlify(direc, False)+'/'+n_child, True), preview=False)}}" class="table-row-item">{{n_child}}</a>
@@ -56,4 +57,20 @@
         </code>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function getLastDirectory(currentDir, baseDir) {
+        let direc = String(currentDir).split("/")
+        direc.pop()
+
+        let d = direc.join("/")
+        if (d == "" || d == baseDir || direc.length < 2) {
+            d = baseDir
+        }
+        d = btoa(d)
+        window.location.href = `{{ url_for('routes.files', name=name, direc=d) }}${d}`
+    }
+</script>
 {% endblock %}

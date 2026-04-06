@@ -8,7 +8,7 @@
         <label for="folder-upload">Upload addon folder</label>
         <input type="file" name="folder-upload" id="folder-upload" webkitdirectory> <br> <br>
 
-        <button type="submit">Upload</button>
+        <button type="submit" class="file-upload-button">Upload</button>
     </form>
     <hr>
     <h3>Your addons</h3>
@@ -20,6 +20,9 @@
                     <h4>Located @ {{a["filename"]}}</h4>
                 </li>
             </a>
+            <form action="{{url_for('routes.delete_addon', name=name, addon_name=a['name'])}}" method="get">
+                <button type="submit">Delete addon</button>
+            </form>
         {% endfor %}
     </ul>
 </div>
