@@ -4,8 +4,8 @@
     <h2>Dashboard</h2>
     <div id="name">Logged in as: {{name}}</div>
     <hr>
-    <div class="non-container">
-        <div class="sub-container">
+    <div>
+        <div>
             <a href="{{url_for('routes.files', name=name, direc=dm.urlify(dm.BASE_DIR, True))}}">
                 <button class="dash-button">Files</button>
             </a>
@@ -23,11 +23,11 @@
         <hr>
         <div class="sub-container">
             <h3>Server stats</h3>
-            <p id="server-stats-connection"></p>
-            <p id="server-stats-memory"></p>
-            <p id="server-stats-netio"></p>
-            <p id="server-stats-battery"></p>
-            <p id="server-stats-database_size"></p>
+            <p id="server-stats-connection">Connection status:</p>
+            <p id="server-stats-memory">Memory:</p>
+            <p id="server-stats-netio">Net IO:</p>
+            <p id="server-stats-battery">Battery:</p>
+            <p id="server-stats-database_size">Database size:</p>
         </div>
     </div>
     <hr>
