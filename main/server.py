@@ -2,9 +2,6 @@ from psutil import virtual_memory, net_io_counters, sensors_battery
 import os
 from requests import get
 from requests.exceptions import ConnectionError
-import cv2
-
-camera = cv2.VideoCapture(0)
 
 def get_size(start_path:str):
     total_size = 0
@@ -56,22 +53,3 @@ def get_server_stats(database_location:str):
         "battery_info": battery_info,
         "database_size": database_size
     }
-
-def get_camera_feed():
-    if camera.isOpened():
-        ret, frame = camera.read()
-        _, image_data = cv2.imencode('.JPG', frame)
-        #image_data = b64encode(image_data.tobytes()).decode()
-        image_data = image_data.tobytes()
-
-        '''
-        return {
-            'stream': image_data
-        }
-        '''
-        return image_data
-    
-    else:
-        return {
-            'success': False
-        }

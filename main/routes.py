@@ -159,15 +159,6 @@ def delete_file(name, path, p_type):
 
     else:
         return redirect(url_for('routes.home', ERROR="Please log in"))
-
-# ------------------------------ CAMERAS ROUTES -------------------------------------
-@routes.route("/<name>/cams")
-def cams(name):
-    if um.is_logged_in(name):
-        return render_template("cams.html", name=name)
-    
-    else:
-        return redirect(url_for('routes.home', ERROR="Please log in"))
     
 # ------------------------------ ADDONS ROUTES --------------------------------------
 @routes.route("/<name>/addons", methods=["GET", "POST"])
