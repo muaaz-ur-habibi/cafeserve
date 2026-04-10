@@ -1,0 +1,8 @@
+{
+    "addons": [
+    ],
+    "server": {
+        "admin route": "ADMIN",
+        "database": "database_path"
+    }
+}
