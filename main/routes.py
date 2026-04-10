@@ -3,9 +3,9 @@ from random import randint
 
 from .usermanager import UsersManager
 from .database import DatabaseManager
-from .server import get_server_stats, get_camera_feed
+from .server import get_server_stats
 from .confighandler import Config
-from .global_funcs import register_addons
+from .global_funcs import register_addons, restart_server
 
 from datetime import datetime, timedelta
 
@@ -42,10 +42,6 @@ def api_update_server():
             ANNOUNCEMENTS_LIST.remove(a)
     
     return {"update_success": True}
-
-@routes.route("/api/get_camera_feed")
-def api_get_camera_feed():
-    return get_camera_feed()
 
 # ------------------------------------ DASHBOARD AND LOGIN ROUTES ---------------------------------
 @routes.route("/", methods=["GET", "POST"])
@@ -183,6 +179,7 @@ def addons(name):
                         dm.add_node(f.filename, f"{dm.BASE_DIR}/Addons", f.stream.read())
 
                         if len(f.filename.split("/")) < 3:
+                            print("Found addon file", f.filename)
                             addon_filename = f.filename
                 
                 print("Added", addon_name)
@@ -192,8 +189,8 @@ def addons(name):
                     "filename": dm.BASE_DIR+"/Addons/"+addon_filename
                 })
                 conf.set_config(cf)
-
-                register_addons(cf, current_app)
+            
+            restart_server()
 
             return render_template("addons.html", name=name, addons=cf["addons"])
     else:
