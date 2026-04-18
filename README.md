@@ -28,6 +28,7 @@
   ```
   git clone https://github.com/muaaz-ur-habibi/cafeserve --depth=1
   ```
+  Or if you don't have git, you can also download and extract the zip file into a folder
   <br>
   To run:
   
