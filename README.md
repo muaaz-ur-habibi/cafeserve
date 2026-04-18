@@ -27,6 +27,7 @@
   ```
   <br>
   To run:
+  
   ```
   (waitress-serve or gunicorn) cafeserve.py
   ```
