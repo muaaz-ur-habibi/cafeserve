@@ -3,7 +3,7 @@
 <hr>
 <h2>Overview</h2>
 <p>
-  This is a simple LAN server designed for home usage. It includes storage, media viewing and sharing services.
+  This is a simple LAN server designed for personal usage. It includes storage, media viewing and sharing services.
 </p>
 <hr>
 <h2>Setup</h2>
@@ -36,3 +36,4 @@
   ```
   A server code will appear in the terminal window, which is used for signing into the server.
 </p>
+<hr>
