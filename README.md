@@ -11,7 +11,7 @@
   To run cafeserve in a production ready environment, you must first install a suitable WSGI server for your O.S: for Windows use <a href="https://github.com/Pylons/waitress">Waitress</a>,
   for Linux or Mac use <a href="https://github.com/benoitc/gunicorn">Gunicorn</a>
 
-  To install them, run the following commands:
+  To install them, run the following commands:<br>
   Gunicorn:
   ```
   pip install gunicorn
@@ -19,5 +19,15 @@
   Waitress:
   ```
   pip install waitress
+  ```
+  <br><br>
+  Next install cafeserve
+  ```
+  git clone https://github.com/muaaz-ur-habibi/cafeserve --depth=1
+  ```
+  <br>
+  To run:
+  ```
+  (waitress-serve or gunicorn) cafeserve.py
   ```
 </p>
