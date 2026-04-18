@@ -20,7 +20,7 @@
   ```
   pip install waitress
   ```
-  <br><br>
+  <br>
   Next install cafeserve
   ```
   git clone https://github.com/muaaz-ur-habibi/cafeserve --depth=1
@@ -31,4 +31,5 @@
   ```
   (waitress-serve or gunicorn) cafeserve.py
   ```
+  A server code will appear in the terminal window, which is used for signing into the server.
 </p>
