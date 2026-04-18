@@ -5,3 +5,19 @@
 <p>
   This is a simple LAN server designed for home usage. It includes storage, media viewing and sharing services.
 </p>
+<hr>
+<h2>Setup</h2>
+<p>
+  To run cafeserve in a production ready environment, you must first install a suitable WSGI server for your O.S: for Windows use <a href="https://github.com/Pylons/waitress">Waitress</a>,
+  for Linux or Mac use <a href="https://github.com/benoitc/gunicorn">Gunicorn</a>
+
+  To install them, run the following commands:
+  Gunicorn:
+  ```
+  pip install gunicorn
+  ```
+  Waitress:
+  ```
+  pip install waitress
+  ```
+</p>
