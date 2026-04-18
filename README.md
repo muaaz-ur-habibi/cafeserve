@@ -8,6 +8,8 @@
 <hr>
 <h2>Setup</h2>
 <p>
+  (NOTE: Setup assumes you have a Python 3 version as well as git on your device)
+  
   To run cafeserve in a production ready environment, you must first install a suitable WSGI server for your O.S: for Windows use <a href="https://github.com/Pylons/waitress">Waitress</a>,
   for Linux or Mac use <a href="https://github.com/benoitc/gunicorn">Gunicorn</a>
 
